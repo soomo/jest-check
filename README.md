@@ -1,6 +1,6 @@
 # jest-check
 
-A Github action written in JavaScript that creates a check run with formatted details following a cypress testing suite. 
+A Github action written in JavaScript that creates a check run with formatted details from a Jest testing suite. 
 
 ## Requirements
 
