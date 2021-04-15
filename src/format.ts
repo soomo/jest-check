@@ -1,8 +1,5 @@
 import type { FormattedTestResults } from "@jest/test-result/build/types";
 
-// @ts-ignore
-// import JEST_OUTPUT from "../spec/output";
-
 export interface FeatureSummary {
   title: string;
   pass: boolean;
@@ -37,7 +34,7 @@ export function buildSummaryData(jestOutput: FormattedTestResults) {
         title,
         pass: tests.reduce<boolean>(
           (pass, f) => (f.pass && pass ? true : false),
-          false
+          true
         ),
         duration: (tr.endTime - tr.startTime) / 1000,
         tests,
@@ -45,8 +42,6 @@ export function buildSummaryData(jestOutput: FormattedTestResults) {
     ];
   }, []);
 }
-
-// const summaryData = buildSummaryData(JEST_OUTPUT as unknown as FormattedTestResults)
 
 /**
  * Format TestSummary[] into Markdown
@@ -65,5 +60,3 @@ export function formatSummaryData(summaryData: FeatureSummary[]) {
 
   return document;
 }
-
-// console.log(formatSummaryData(summaryData))

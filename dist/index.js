@@ -22,7 +22,7 @@ function buildSummaryData(jestOutput) {
             ...accum,
             {
                 title,
-                pass: tests.reduce((pass, f) => (f.pass && pass ? true : false), false),
+                pass: tests.reduce((pass, f) => (f.pass && pass ? true : false), true),
                 duration: (tr.endTime - tr.startTime) / 1000,
                 tests,
             },
@@ -30,7 +30,6 @@ function buildSummaryData(jestOutput) {
     }, []);
 }
 exports.buildSummaryData = buildSummaryData;
-// const summaryData = buildSummaryData(JEST_OUTPUT as unknown as FormattedTestResults)
 /**
  * Format TestSummary[] into Markdown
  * @param summaryData results from buildSummaryData
@@ -48,7 +47,6 @@ function formatSummaryData(summaryData) {
     return document;
 }
 exports.formatSummaryData = formatSummaryData;
-// console.log(formatSummaryData(summaryData))
 
 
 /***/ }),
