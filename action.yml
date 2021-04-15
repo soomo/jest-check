@@ -1,0 +1,16 @@
+name: "jest-check"
+description: "Adds output from Jest tests to the details of a check run"
+author: "soomo"
+branding:
+  icon: "check-circle"
+  color: "blue"
+runs:
+  using: "node12"
+  main: "dist/index.js"
+inputs:
+  GITHUB_TOKEN:
+    description: "Github access token, usually in the repos secrets"
+    required: true
+  JEST_FOLDER:
+    description: "Jest folder path, contains tests, reports and outputs"
+    required: true
