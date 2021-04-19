@@ -5,6 +5,7 @@ import * as github from "@actions/github";
 import type { FormattedTestResults } from "@jest/test-result/build/types";
 
 import { buildSummaryData, formatSummaryData } from "./format";
+import { failToAnnotations } from "./failsToAnnotations";
 
 const ACTION_NAME = "jest-check-run";
 
@@ -41,6 +42,7 @@ async function run() {
     output: {
       title: "Check Output",
       summary: formatSummaryData(summary),
+      annotations: failToAnnotations(`${JEST_FOLDER}/fails`)
     },
   });
 }

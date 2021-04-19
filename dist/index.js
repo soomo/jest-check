@@ -1,6 +1,47 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 427:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.failToAnnotations = void 0;
+const fs_1 = __importDefault(__nccwpck_require__(747));
+const path_1 = __importDefault(__nccwpck_require__(622));
+const utils_1 = __nccwpck_require__(918);
+function failToAnnotations(cucumberDir) {
+    return utils_1.getFiles(cucumberDir).reduce((annotations, currentFilePath) => [
+        ...annotations,
+        ...failToAnnotation(currentFilePath.path),
+    ], []);
+}
+exports.failToAnnotations = failToAnnotations;
+function failToAnnotation(failDirPath) {
+    const failJson = JSON.parse(fs_1.default.readFileSync(path_1.default.join(failDirPath), "utf-8"));
+    if (!failJson[0]) {
+        return [];
+    }
+    return failJson.reduce((annotations, currentFailure) => [
+        ...annotations,
+        {
+            path: currentFailure.fileName,
+            start_line: currentFailure.lineNumber,
+            end_line: currentFailure.lineNumber,
+            annotation_level: "failure",
+            message: String(currentFailure.errorMessage),
+            title: `${currentFailure.stepText}`,
+        },
+    ], []);
+}
+
+
+/***/ }),
+
 /***/ 610:
 /***/ ((__unused_webpack_module, exports) => {
 
@@ -93,6 +134,7 @@ const path_1 = __importDefault(__nccwpck_require__(622));
 const core = __importStar(__nccwpck_require__(186));
 const github = __importStar(__nccwpck_require__(438));
 const format_1 = __nccwpck_require__(610);
+const failsToAnnotations_1 = __nccwpck_require__(427);
 const ACTION_NAME = "jest-check-run";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -111,10 +153,55 @@ function run() {
                 : "failure", output: {
                 title: "Check Output",
                 summary: format_1.formatSummaryData(summary),
+                annotations: failsToAnnotations_1.failToAnnotations(`${JEST_FOLDER}/fails`)
             } }));
     });
 }
 run();
+
+
+/***/ }),
+
+/***/ 918:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getFiles = void 0;
+const fs_1 = __importDefault(__nccwpck_require__(747));
+/**
+ * Build an array of FileObjects from provided directory
+ * @param dir
+ * @param fileList
+ */
+function getFiles(dir, fileList = []) {
+    if (!fs_1.default.existsSync(dir)) {
+        return [];
+    }
+    const files = fs_1.default.readdirSync(dir);
+    files.forEach((file) => {
+        const filePath = `${dir}/${file}`;
+        if ([".gitkeep", ".Trash-0"].indexOf(file) === -1) {
+            if (fs_1.default.statSync(filePath).isDirectory()) {
+                getFiles(filePath, fileList);
+            }
+            else {
+                const obj = {
+                    path: filePath,
+                    name: file,
+                    type: file.split(".")[1],
+                };
+                fileList.push(obj);
+            }
+        }
+    });
+    return fileList;
+}
+exports.getFiles = getFiles;
 
 
 /***/ }),
