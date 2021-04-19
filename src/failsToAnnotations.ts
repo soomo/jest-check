@@ -42,7 +42,8 @@ function failToAnnotation(failDirPath: string) {
     (annotations, currentFailure) => [
       ...annotations,
       {
-        path: currentFailure.fileName,
+        // @ts-ignore
+        path: String(currentFailure.fileName.match(/(spec\/.*)/g)[0]),
         start_line: currentFailure.lineNumber,
         end_line: currentFailure.lineNumber,
         annotation_level: "failure",
