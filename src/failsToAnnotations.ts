@@ -3,6 +3,9 @@ import path from "path";
 
 import { getFiles } from "./utils";
 
+/**
+ * Basic format for a cucumber error
+ */
 type JestCucumberFail = {
   stepText: string;
   lineNumber: number;
@@ -29,6 +32,11 @@ export function failToAnnotations(cucumberDir: string) {
   );
 }
 
+/**
+ * Translate JestCucumberFails into GithubAnnotations
+ * @param failDirPath
+ * @returns 
+ */
 function failToAnnotation(failDirPath: string) {
   const failJson = JSON.parse(
     fs.readFileSync(path.join(failDirPath), "utf-8")

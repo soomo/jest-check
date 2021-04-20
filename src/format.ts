@@ -13,6 +13,11 @@ export interface TestSummary {
   pass: boolean;
 }
 
+/**
+ * Build summary data out of FormattedTestResults (Jest Output)
+ * @param jestOutput 
+ * @returns 
+ */
 export function buildSummaryData(jestOutput: FormattedTestResults) {
   return jestOutput.testResults.reduce<FeatureSummary[]>((accum, tr) => {
     const title = tr.assertionResults.reduce<string>(
@@ -44,7 +49,7 @@ export function buildSummaryData(jestOutput: FormattedTestResults) {
 }
 
 /**
- * Format TestSummary[] into Markdown
+ * Format FeatureSummary[] into Markdown
  * @param summaryData results from buildSummaryData
  * @returns Markdown string
  */

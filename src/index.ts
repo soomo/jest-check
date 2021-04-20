@@ -7,7 +7,7 @@ import type { FormattedTestResults } from "@jest/test-result/build/types";
 import { buildSummaryData, formatSummaryData } from "./format";
 import { failToAnnotations } from "./failsToAnnotations";
 
-const ACTION_NAME = "jest-check-run";
+const ACTION_NAME = "jest-check";
 
 async function run() {
   const GITHUB_TOKEN = core.getInput("GITHUB_TOKEN", { required: true });

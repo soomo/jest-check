@@ -21,6 +21,11 @@ function failToAnnotations(cucumberDir) {
     ], []);
 }
 exports.failToAnnotations = failToAnnotations;
+/**
+ * Translate JestCucumberFails into GithubAnnotations
+ * @param failDirPath
+ * @returns
+ */
 function failToAnnotation(failDirPath) {
     const failJson = JSON.parse(fs_1.default.readFileSync(path_1.default.join(failDirPath), "utf-8"));
     if (!failJson[0]) {
@@ -50,6 +55,11 @@ function failToAnnotation(failDirPath) {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.formatSummaryData = exports.buildSummaryData = void 0;
+/**
+ * Build summary data out of FormattedTestResults (Jest Output)
+ * @param jestOutput
+ * @returns
+ */
 function buildSummaryData(jestOutput) {
     return jestOutput.testResults.reduce((accum, tr) => {
         const title = tr.assertionResults.reduce((title, ar) => ar.ancestorTitles[0], "");
@@ -73,7 +83,7 @@ function buildSummaryData(jestOutput) {
 }
 exports.buildSummaryData = buildSummaryData;
 /**
- * Format TestSummary[] into Markdown
+ * Format FeatureSummary[] into Markdown
  * @param summaryData results from buildSummaryData
  * @returns Markdown string
  */
@@ -136,7 +146,7 @@ const core = __importStar(__nccwpck_require__(186));
 const github = __importStar(__nccwpck_require__(438));
 const format_1 = __nccwpck_require__(610);
 const failsToAnnotations_1 = __nccwpck_require__(427);
-const ACTION_NAME = "jest-check-run";
+const ACTION_NAME = "jest-check";
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const GITHUB_TOKEN = core.getInput("GITHUB_TOKEN", { required: true });
