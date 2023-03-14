@@ -10,7 +10,7 @@ A Github action written in JavaScript that creates a check run with formatted de
 Add the following to your Github action workflow file
 ```yaml
 - name: jest-check
-  uses: soomo/jest-check@0.0.1
+  uses: soomo/jest-check@0.0.5
   with:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     JEST_FOLDER: ${{ github.workspace }}/spec
