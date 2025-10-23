@@ -62,19 +62,19 @@ exports.formatSummaryData = exports.buildSummaryData = void 0;
  */
 function buildSummaryData(jestOutput) {
     return jestOutput.testResults.reduce((accum, tr) => {
-        const title = tr.assertionResults.reduce((title, ar) => ar.ancestorTitles[0], "");
+        const title = tr.assertionResults.reduce((_title, ar) => ar.ancestorTitles[0], "");
         const tests = tr.assertionResults.map((ar) => {
             return {
                 ancestor: ar.ancestorTitles[0],
                 title: ar.title,
-                pass: ar.status === "passed",
+                status: ar.status,
             };
         });
         return [
             ...accum,
             {
                 title,
-                pass: tests.reduce((pass, f) => (f.pass && pass ? true : false), true),
+                pass: tests.every((test) => test.status !== "failed"),
                 duration: (tr.endTime - tr.startTime) / 1000,
                 tests,
             },
@@ -93,7 +93,19 @@ function formatSummaryData(summaryData) {
         var _a;
         document += `### ${d.pass ? `✅` : `❌`} ${d.title} (${d.duration}s ⏱️)\n`;
         (_a = d.tests) === null || _a === void 0 ? void 0 : _a.forEach((s) => {
-            document += `- ${s.pass ? `✅` : `❌`} ${s.title}\n`;
+            let icon;
+            switch (s.status) {
+                case "passed":
+                    icon = "✅";
+                    break;
+                case "failed":
+                    icon = "❌";
+                    break;
+                default:
+                    icon = "⚠️";
+                    break;
+            }
+            document += `- ${icon} ${s.title}\n`;
         });
     });
     return document;
