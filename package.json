@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bkwhite/jest-check.git"
+    "url": "git+https://github.com/soomo/jest-check.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/bkwhite/jest-check/issues"
+    "url": "https://github.com/soomo/jest-check/issues"
   },
-  "homepage": "https://github.com/bkwhite/jest-check#readme",
+  "homepage": "https://github.com/soomo/jest-check#readme",
   "devDependencies": {
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.40",
